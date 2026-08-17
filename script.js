@@ -265,39 +265,50 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Voice Note Logic
-    const audioEl = document.getElementById('drAudio');
-    const playBtn = document.getElementById('playDrAudio');
-    const waveform = document.querySelector('.wa-waveform-wrapper');
-    const vnTime = document.getElementById('vnTime');
-    
-    if(playBtn && audioEl) {
-        playBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            if(audioEl.paused) {
+    const audioEl     = document.getElementById('drAudio');
+    const playBtn     = document.getElementById('playDrAudio');
+    const waveformEl  = document.getElementById('waWaveform');
+    const vnTime      = document.getElementById('vnTime');
+
+    if (playBtn && audioEl) {
+        const bars = waveformEl ? Array.from(waveformEl.querySelectorAll('.wa-bar')) : [];
+
+        function fmtTime(sec) {
+            sec = Math.floor(sec || 0);
+            return Math.floor(sec / 60) + ':' + String(sec % 60).padStart(2, '0');
+        }
+
+        // ease-out: começa rápido e vai desacelerando
+        // pct real 10% → ~45% das barras; 50% → ~77%; 100% → 100%
+        function easeOut(pct) {
+            return Math.pow(pct, 0.35);
+        }
+
+        function updateBars() {
+            if (!audioEl.duration) return;
+            const pct    = audioEl.currentTime / audioEl.duration;
+            const played = Math.round(easeOut(pct) * bars.length);
+            bars.forEach((b, i) => b.classList.toggle('played', i < played));
+            vnTime.textContent = fmtTime(audioEl.currentTime);
+        }
+
+        playBtn.addEventListener('click', function () {
+            if (audioEl.paused) {
                 audioEl.play();
                 playBtn.classList.add('playing');
-                waveform.classList.add('playing');
-                playBtn.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
-                
-                this.interval = setInterval(() => {
-                    let s = Math.floor(audioEl.currentTime);
-                    vnTime.innerText = `0:${s < 10 ? '0'+s : s}`;
-                }, 500);
             } else {
                 audioEl.pause();
                 playBtn.classList.remove('playing');
-                waveform.classList.remove('playing');
-                playBtn.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
-                clearInterval(this.interval);
             }
         });
-    
-        audioEl.addEventListener('ended', function() {
+
+        audioEl.addEventListener('timeupdate', updateBars);
+
+        audioEl.addEventListener('ended', function () {
             playBtn.classList.remove('playing');
-            waveform.classList.remove('playing');
-            playBtn.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
-            clearInterval(playBtn.interval);
-            vnTime.innerText = '0:38'; // Reset text
+            bars.forEach(b => b.classList.remove('played'));
+            vnTime.textContent = fmtTime(audioEl.duration);
         });
+
     }
 });

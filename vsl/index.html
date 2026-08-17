@@ -43,77 +43,23 @@
     <link rel="dns-prefetch" href="https://images.converteai.net">
     <link rel="dns-prefetch" href="https://api.vturb.com.br">
 
-    <!-- REMAPEADOR DE UTM — deve vir ANTES do script Utmify -->
+    <!-- Meta Pixel Code -->
     <script>
-    (function () {
-      var params = new URLSearchParams(window.location.search);
-
-      // Lê os parâmetros como chegam do anúncio (formato errado)
-      var campaignName       = params.get('utm_source')   || '';
-      var adsetName          = params.get('utm_medium')   || '';
-      var adName             = params.get('utm_campaign') || '';
-      var siteSourceRaw      = params.get('utm_content')  || '';
-
-      // Extrai o placement de "fb/feed" → "feed"
-      var placement = siteSourceRaw.includes('/')
-        ? siteSourceRaw.split('/').slice(1).join('/')
-        : siteSourceRaw;
-
-      // Só executa se existir pelo menos um parâmetro UTM válido
-      if (!campaignName && !adsetName && !adName) return;
-
-      // Constrói novo conjunto de parâmetros
-      var newParams = new URLSearchParams();
-
-      // Preserva qualquer parâmetro que não seja UTM (ex: fbclid, gclid, etc.)
-      params.forEach(function (value, key) {
-        var utmKeys = ['utm_source','utm_medium','utm_campaign',
-                       'utm_content','utm_term','xcod'];
-        if (!utmKeys.includes(key)) {
-          newParams.set(key, value);
-        }
-      });
-
-      // Escreve os UTMs no formato correto
-      newParams.set('utm_source',   'FB');
-      newParams.set('utm_campaign', campaignName);
-      newParams.set('utm_medium',   adsetName);
-      newParams.set('utm_content',  adName);
-      newParams.set('utm_term',     placement);
-
-      // Monta o xcod no padrão Utmify
-      var xcod = 'FBhQwK21wXxR'
-        + campaignName + 'hQwK21wXxR'
-        + adsetName    + 'hQwK21wXxR'
-        + adName       + 'hQwK21wXxR'
-        + placement;
-
-      newParams.set('xcod', xcod);
-
-      // Reescreve a URL sem recarregar a página
-      var newUrl = window.location.pathname + '?' + newParams.toString()
-                 + window.location.hash;
-
-      history.replaceState(null, '', newUrl);
-    })();
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1540640053859439');
+    fbq('track', 'PageView');
     </script>
-
-    <!-- Utmify Pixel and UTM Code — vem DEPOIS do remapeador -->
-    <script>
-      window.pixelId = "6a01f0f80bff4fd210a3405f";
-      var a = document.createElement("script");
-      a.setAttribute("async", "");
-      a.setAttribute("defer", "");
-      a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
-      document.head.appendChild(a);
-    </script>
-    <script
-      src="https://cdn.utmify.com.br/scripts/utms/latest.js"
-      data-utmify-prevent-subids
-      async
-      defer
-    ></script>
-    <!-- End Utmify Code -->
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1540640053859439&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
 
     <!-- Clarity Tracking Code -->
     <script type="text/javascript">
@@ -152,13 +98,13 @@
             <p class="purchasing-now">Ahora mismo, <span id="buyers-count">11</span> personas más están comprando La
                 Frecuencia Da Vinci</p>
 
-            <a href="https://pay.hotmart.com/B104821327A?off=rgxeig70&checkoutMode=10" class="btn-orderpulse yellow-btn">COMPRAR
+            <a href="https://pay.hotmart.com/B104821327A?checkoutMode=10" class="btn-orderpulse yellow-btn">COMPRAR
                 AHORA</a>
 
             <div class="cta-text-links">
-                <a href="https://pay.hotmart.com/B104821327A?off=rgxeig70&checkoutMode=10">¡SÍ! Quiero detener el zumbido en mis
+                <a href="https://pay.hotmart.com/B104821327A?checkoutMode=10">¡SÍ! Quiero detener el zumbido en mis
                     oídos para siempre. (Agregar al carrito)</a>
-                <a href="https://pay.hotmart.com/B104821327A?off=rgxeig70&checkoutMode=10">Merezco disfrutar de mis años dorados en
+                <a href="https://pay.hotmart.com/B104821327A?checkoutMode=10">Merezco disfrutar de mis años dorados en
                     silencio.</a>
             </div>
 
@@ -171,10 +117,10 @@
                     class="offer-image">
             </div>
 
-            <a href="https://pay.hotmart.com/B104821327A?off=rgxeig70&checkoutMode=10"
+            <a href="https://pay.hotmart.com/B104821327A?checkoutMode=10"
                 class="btn-orderpulse yellow-btn secondary-btn">¡SÍ! QUIERO SILENCIO</a>
 
-            <a href="https://pay.hotmart.com/B104821327A?off=rgxeig70&checkoutMode=10" class="final-cart-link">AGREGAR AL CARRITO</a>
+            <a href="https://pay.hotmart.com/B104821327A?checkoutMode=10" class="final-cart-link">AGREGAR AL CARRITO</a>
         </div>
 
         <div class="reviews-section">
